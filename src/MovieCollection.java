@@ -166,16 +166,11 @@ public class MovieCollection
 
     private void searchCast()
     {
-
-    }
-
-    private void searchKeywords()
-    {
-        System.out.print("Enter a keyword search term: ");
-        String searchTerm = scanner.nextLine();
+        System.out.print("Enter a cast member name: ");
+        String castMember = scanner.nextLine();
 
         // prevent case sensitivity
-        searchTerm = searchTerm.toLowerCase();
+        castMember = castMember.toLowerCase();
 
         // arraylist to hold search results
         ArrayList<Movie> results = new ArrayList<Movie>();
@@ -183,12 +178,12 @@ public class MovieCollection
         // search through ALL movies in collection
         for (int i = 0; i < movies.size(); i++)
         {
-            String keyword = movies.get(i).getKeywords();
-            keyword = keyword.toLowerCase();
+            String movieCast = movies.get(i).getCast();
+            movieCast = movieCast.toLowerCase();
 
-            if (keyword.indexOf(searchTerm) != -1)
+            if (movieCast.indexOf(castMember) != -1)
             {
-                //add the Movie objects to the results list
+                //add the Movie objest to the results list
                 results.add(movies.get(i));
             }
         }
@@ -219,6 +214,62 @@ public class MovieCollection
 
         System.out.println("\n ** Press Enter to Return to Main Menu **");
         scanner.nextLine();
+    }
+
+
+    public static void searchCast() {
+        Scanner scanner = new Scanner(System.in);
+
+        // Get the name of the actor to search for
+        System.out.print("Enter the name of the actor: ");
+        String actorName = scanner.nextLine();
+
+        // Find all actors with the specified name
+        ArrayList<Actor> matchingActors = new ArrayList<Actor>();
+        for (Actor actor : actors) {
+            if (actor.getName().equalsIgnoreCase(actorName)) {
+                matchingActors.add(actor);
+            }
+        }
+
+        // If no actors were found, display a message and return
+        if (matchingActors.size() == 0) {
+            System.out.println("No actors were found with that name.");
+            return;
+        }
+
+        // Display a list of all actors with the specified name
+        System.out.println("Actors matching " + actorName + ":");
+        for (int i = 0; i < matchingActors.size(); i++) {
+            System.out.println((i + 1) + ". " + matchingActors.get(i).getName());
+        }
+
+        // Get the actor to display movies for
+        System.out.print("Enter the number of the actor: ");
+        int actorIndex = scanner.nextInt() - 1;
+        Actor selectedActor = matchingActors.get(actorIndex);
+
+        // Find all movies that the selected actor has starred in
+        ArrayList<Movie> actorMovies = new ArrayList<Movie>();
+        for (Movie movie : movies) {
+            if (movie.getCast().contains(selectedActor)) {
+                actorMovies.add(movie);
+            }
+        }
+
+        // Display a list of all movies that the selected actor has starred in
+        System.out.println("Movies starring " + selectedActor.getName() + ":");
+        for (int i = 0; i < actorMovies.size(); i++) {
+            System.out.println((i + 1) + ". " + actorMovies.get(i).getTitle());
+        }
+
+        // Get the movie to display information for
+        System.out.print("Enter the number of the movie: ");
+        int movieIndex = scanner.nextInt() - 1;
+        Movie selectedMovie = actorMovies.get(movieIndex);
+
+        // Display information for the selected movie
+        displayMovieInfo(selectedMovie);
     }
 
     private void listGenres()
