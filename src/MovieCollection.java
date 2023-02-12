@@ -340,7 +340,32 @@ public class MovieCollection
 
     private void listHighestRevenue()
     {
+        Movie[] top50 = new Movie[50];
+        ArrayList<Movie> m = new ArrayList<>();
 
+        for (int i = 0; i < movies.size(); i++) {
+            m.add(movies.get(i));
+        }
+
+        for (int i = 0; i < 50; i++) {
+            double highest = 0;
+            int highestRevenueIndex = 0;
+            Movie highestRevenueMovies = new Movie("", "", "", "", "", "", 0, "", 0, 0, 0);
+            for (int k = 0; k < m.size(); i++) {
+                if (m.get(k).getRevenue() > highest){
+                    highest = m.get(k).getRevenue();
+                    highestRevenueMovies = m.get(k);
+                    highestRevenueIndex = k;
+
+                }
+            }
+            m.remove(highestRevenueIndex);
+            top50[i] = highestRevenueMovies;
+        }
+
+        for (int i =0 ;i < 50; i++) {
+            System.out.println((i+1) + top50[i].getTitle() + ":" + top50[i].getRevenue() );
+        }
     }
 
     private void importMovieList(String fileName)
